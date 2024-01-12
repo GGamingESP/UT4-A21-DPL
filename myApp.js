@@ -12,15 +12,19 @@ app.use(function(req, res, next) {
   next();
 })
 
+// estos dos montan el body parser para todas las rutas
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//para poder usar archivos dentro de public
 app.use("/public", express.static(__dirname + "/public"))
 
+// para enviar el archivo index.html
 app.get("/", function(req, res) {
     res.sendFile(absolutePath);
 })
 
+  // tevuelve la fecha actual cuando haces la llamada ademas de tener 2 middleware
   app.get('/now', function(req, res, next) {
     req.time = new Date().toString()  // Hypothetical synchronous operation
     next();
@@ -40,11 +44,20 @@ app.get("/json", function(req, res) {
     res.json({ message });
 })
 
+  // parametro GET llamado word y lo devuelve
   app.get("/:word/echo", function(req, res) {
     let word = req.params.word
     res.json({echo: word})
   })
 
+  // devuelve el nombre enviado por metodo POST
+  app.post("/name", function(req, res) {
+    // Handle the data in the request
+    let string = req.body.first + " " + req.body.last;
+    res.json({ name: string });
+  });
+
+    // devuelve el 
   app.get("/name", function(req, res) {
     let firstname = req.query.first;
     let lastname = req.query.last;
