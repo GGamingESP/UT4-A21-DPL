@@ -17,6 +17,13 @@ app.get("/", function(req, res) {
     res.sendFile(absolutePath);
 })
 
+  app.get('/now', function(req, res, next) {
+    req.time = new Date().toString()  // Hypothetical synchronous operation
+    next();
+  }, function(req, res) {
+    res.json({time: req.time});
+  });
+
 app.get("/json", function(req, res) {
     let message = 'Hello json';
 
